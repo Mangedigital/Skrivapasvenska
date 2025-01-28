@@ -70,22 +70,22 @@ export default function TypingTest() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
-      <div className="flex justify-between items-center">
+    <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6 md:space-y-8">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div className="flex items-center gap-3">
-          <Keyboard className="w-8 h-8 text-indigo-600" />
-          <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+          <Keyboard className="w-6 h-6 md:w-8 md:h-8 text-indigo-600" />
+          <h1 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
             Skriv På Svenska
           </h1>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
           <div className="flex gap-2 bg-white/60 backdrop-blur-sm p-1 rounded-xl shadow-sm">
             {difficultyOptions.map(({ id, label, bgColor, selectedBg, textColor }) => (
               <button
                 key={id}
                 onClick={() => setDifficulty(id as 'easy' | 'medium' | 'hard')}
                 className={`
-                  px-4 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
+                  flex-1 md:flex-none px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200
                   ${difficulty === id ? `${selectedBg} ${textColor} shadow-sm` : `${bgColor} hover:bg-opacity-40`}
                 `}
               >
@@ -95,7 +95,7 @@ export default function TypingTest() {
           </div>
           <button
             onClick={resetTest}
-            className="flex items-center gap-2 px-4 py-2 bg-white/90 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors duration-200 shadow-sm"
+            className="flex items-center justify-center gap-2 px-4 py-2 bg-white/90 text-indigo-600 rounded-lg hover:bg-indigo-50 transition-colors duration-200 shadow-sm"
           >
             <RefreshCcw className="w-4 h-4" />
             Ny Text
@@ -106,11 +106,11 @@ export default function TypingTest() {
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-white/90 px-4 py-3 rounded-xl shadow-sm backdrop-blur-sm">
           <p className="text-gray-600 text-sm">Ord per minut</p>
-          <p className="text-2xl font-bold text-indigo-600">{wpm}</p>
+          <p className="text-xl md:text-2xl font-bold text-indigo-600">{wpm}</p>
         </div>
         <div className="bg-white/90 px-4 py-3 rounded-xl shadow-sm backdrop-blur-sm">
           <p className="text-gray-600 text-sm">Rätt</p>
-          <p className="text-2xl font-bold text-green-600">{accuracy}%</p>
+          <p className="text-xl md:text-2xl font-bold text-green-600">{accuracy}%</p>
         </div>
       </div>
 
@@ -121,14 +121,14 @@ export default function TypingTest() {
           value={currentText}
           onChange={handleInput}
           disabled={showAnalysis}
-          className="w-full p-6 rounded-2xl border-2 border-gray-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200 min-h-[120px] text-lg disabled:bg-gray-50 shadow-sm"
+          className="w-full p-4 md:p-6 rounded-2xl border-2 border-gray-100 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all duration-200 min-h-[120px] text-base md:text-lg disabled:bg-gray-50 shadow-sm"
           placeholder="Börja skriva här..."
         />
 
         <button
           onClick={handleAnalyze}
           disabled={!isCompleted}
-          className={`w-full flex items-center justify-center gap-2 px-4 py-4 rounded-xl transition-all duration-200 ${
+          className={`w-full flex items-center justify-center gap-2 px-4 py-3 md:py-4 rounded-xl transition-all duration-200 ${
             !isCompleted
               ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
               : 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:shadow-lg transform hover:-translate-y-0.5'
