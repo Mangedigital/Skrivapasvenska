@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { RefreshCcw, CheckCircle, Keyboard } from 'lucide-react';
+import { RefreshCcw, CheckCircle, Keyboard, ArrowLeft } from 'lucide-react';
 import TextDisplay from './TextDisplay';
 import ErrorSummary from './ErrorSummary';
 import { analyzeText, calculateAccuracy } from '../utils/textAnalysis';
 import { sampleTexts } from '../data/sampleTexts';
+import type { JobCategory } from '../App';
 
-export default function TypingTest() {
+interface TypingTestProps {
+  category: JobCategory;
+  onBack: () => void;
+}
+
+export default function TypingTest({ category, onBack }: TypingTestProps) {
   const [currentText, setCurrentText] = useState('');
   const [targetText, setTargetText] = useState('');
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -17,10 +23,12 @@ export default function TypingTest() {
   const [errors, setErrors] = useState<Array<{ type: string; description: string; count: number }>>([]);
 
   const getNewText = useCallback(() => {
-    const textsForDifficulty = sampleTexts.filter(t => t.difficulty === difficulty);
-    const randomIndex = Math.floor(Math.random() * textsForDifficulty.length);
-    return textsForDifficulty[randomIndex].text;
-  }, [difficulty]);
+    const textsForCategory = sampleTexts.filter(
+      t => t.difficulty === difficulty && t.category === category
+    );
+    const randomIndex = Math.floor(Math.random() * textsForCategory.length);
+    return textsForCategory[randomIndex]?.text || 'Ingen text tillgänglig för denna kategori.';
+  }, [difficulty, category]);
 
   const resetTest = useCallback(() => {
     setCurrentText('');
@@ -70,9 +78,15 @@ export default function TypingTest() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-6 md:space-y-8">
+    <div className="max-w-4xl mx-auto space-y-6 md:space-y-8">
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div className="flex items-center gap-3">
+          <button
+            onClick={onBack}
+            className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
           <Keyboard className="w-6 h-6 md:w-8 md:h-8 text-indigo-600" />
           <h1 className="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
             Skriv På Svenska

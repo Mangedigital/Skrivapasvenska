@@ -1,8 +1,13 @@
-import React from 'react';
-import TypingTest from './components/TypingTest';
+import React, { useState } from 'react';
 import { Keyboard } from 'lucide-react';
+import CategorySelection from './components/CategorySelection';
+import TypingTest from './components/TypingTest';
+
+export type JobCategory = 'cleaning' | 'gardening' | 'childcare' | 'healthcare' | 'retail' | null;
 
 function App() {
+  const [selectedCategory, setSelectedCategory] = useState<JobCategory>(null);
+
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm">
@@ -13,7 +18,11 @@ function App() {
       </nav>
       
       <main className="container mx-auto py-4 md:py-8 px-4">
-        <TypingTest />
+        {selectedCategory ? (
+          <TypingTest category={selectedCategory} onBack={() => setSelectedCategory(null)} />
+        ) : (
+          <CategorySelection onSelect={setSelectedCategory} />
+        )}
       </main>
       
       <footer className="mt-8 md:mt-12 py-4 md:py-6 text-center text-gray-600 text-xs md:text-sm">
